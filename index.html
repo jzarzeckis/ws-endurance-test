@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>WS test</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootswatch/3.1.1/superhero/bootstrap.min.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="well">
+            <h2>ws-test</h2>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="form-group">
+            <label class="control-label" for="msg_length">Each message length</label>
+            <input class="form-control" type="text" id="msg_length" />
+          </div>
+          <div class="form-group">
+            <label class="control-label" for="mps">Messages per second</label>
+            <input class="form-control" type="text" id="mps" />
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <span class="btn btn-primary" id="start">Start test</span>
+          <span class="btn btn-danger" id="stop">Stop test</span>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="well">
+            <h3>Sending:</h3>
+            <div id="send_console"></div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="well">
+            <h3>Receiving:</h3>
+            <div id="receive_console"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="//code.jquery.com/jquery-2.1.0.min.js"></script>
+    <script src="main.js"></script>
+  </body>
+</html>
