@@ -25,10 +25,30 @@
             <label class="control-label" for="mps">Messages per second</label>
             <input class="form-control" type="text" id="mps" />
           </div>
+          <div class="form-group">
+            <span class="btn btn-primary" id="start">Start test</span>
+            <span class="btn btn-danger" id="stop">Stop test</span>
+          </div>
         </div>
         <div class="col-lg-6">
-          <span class="btn btn-primary" id="start">Start test</span>
-          <span class="btn btn-danger" id="stop">Stop test</span>
+          <div class="form-group">
+            <label class="col-lg-2 control-label" for="ws_url">ws url</label>
+            <div class="col-lg-10">
+              <select class="form-control" id="ws_url">
+                <option>ws://echo.websocket.org</option>
+                <option>ws://91.213.212.21/ws/video?stream=cctv_hs-mob_med&binary=1</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-2 control-label" for="control_msg">control message</label>
+            <div class="col-lg-10">
+              <select class="form-control" id="control_msg">
+                <option>Random</option>
+                <option>S1</option>
+              </select>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -43,6 +63,8 @@
           <div class="well">
             <h3>Receiving:</h3>
             <div id="receive_console"></div>
+            <h4>Receiving at:</h4>
+            <span id="fps_meter">0</span> fps
           </div>
         </div>
       </div>

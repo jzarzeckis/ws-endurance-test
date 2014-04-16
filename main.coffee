@@ -1,5 +1,6 @@
 limit = 0xffff
 wsUrl = "ws://echo.websocket.org"
+controlString = "Random"
 
 msgLength = 0xfff
 mps = 10
@@ -7,6 +8,8 @@ mps = 10
 ws = null
 
 testRunning = no
+
+receiveTimeStampStack = []
 
 randomString = do ->
   availableChars = []
@@ -21,14 +24,20 @@ randomString = do ->
       str = str + availableChars[Math.round(Math.random() * availableLen)]
     str
 
+
+
 $ ->
   startBtn = $('#start')
   stopBtn = $('#stop')
   lengthInput = $('#msg_length')
   mpsInput = $('#mps')
+  urlSelect = $('#ws_url')
+  controlSelect = $('#control_msg')
 
   sendLog = $('#send_console')
   recLog = $('#receive_console')
+
+  fpsMeter = $('#fps_meter')
 
   lengthInput.val msgLength
   lengthInput.on 'keyup', ->
@@ -38,7 +47,34 @@ $ ->
   mpsInput.on 'keyup', ->
     mps = mpsInput.val() || 1
 
+  urlSelect.val wsUrl
+  urlSelect.on 'change', ->
+    wsUrl = urlSelect.val()
+
+  controlSelect.val controlString
+  controlSelect.on 'change', ->
+    controlString = controlSelect.val()
+
+  stampReceived = do ->
+    # finds the index, up to which items can be removed from stack (items older than 1s)
+    findLimit = (oldStamp)->
+      end = -1
+      for stamp, idx in receiveTimeStampStack
+        if stamp > oldStamp
+          return idx # all elements until thix index will be removed via array splice
+        end = idx
+      return end + 1 # appears that splice can remove up to the last element
+    ->
+      stamp = Date.now()
+      old = stamp - 1000
+      removableCount = findLimit old
+      receiveTimeStampStack.splice 0, removableCount
+      receiveTimeStampStack.push stamp
+      fpsMeter.text receiveTimeStampStack.length
+
+
   logReceived = (string) ->
+    stampReceived()
     recLog.text "#{Date.now()}: #{string}"
 
   logSent = (string) ->
@@ -50,9 +86,9 @@ $ ->
 
     # calculate the timeout for next request
     timeout = 1000 / mps
-    msg = randomString msgLength
+    msg = if controlString is "Random" then randomString msgLength else controlString
     ws.send msg
-    logSent "#{msgLength} chars long message sent: #{msg.substr(0, 15)}"
+    logSent "#{msg.length} chars long message sent: #{msg.substr(0, 15)}"
     window.setTimeout wsLoop, timeout
 
 
@@ -66,9 +102,9 @@ $ ->
       logReceived "Websocket closed"
       stopTest()
     ws.onmessage = (e)->
-      logReceived "WS message (#{e.data.length} chars) received: #{e.data.substr(0, 20)}"
+      logReceived "WS message (#{e.data.length} chars) received: #{e.data.substr?(0, 20)}"
     ws.onerror = (e)->
-      logReceived.parent().append "<div>#{Date.now()}: Error: #{e.data}</div>"
+      recLog.parent().append "<div>#{Date.now()}: Error: #{e.data}</div>"
 
   stopTest = ->
     testRunning = no
