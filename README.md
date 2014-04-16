@@ -1,0 +1,1 @@
+## A quick test to see the how heavy websockets can be handled over different networks
