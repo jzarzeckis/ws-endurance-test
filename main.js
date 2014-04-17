@@ -120,7 +120,7 @@
       };
       ws.onmessage = function(e) {
         var _base;
-        return logReceived("WS message (" + e.data.length + " chars) received: " + (typeof (_base = e.data).substr === "function" ? _base.substr(0, 20) : void 0));
+        return logReceived(e.data.length != null ? "WS message (" + e.data.length + " chars) received: " + (typeof (_base = e.data).substr === "function" ? _base.substr(0, 20) : void 0) : "Binary ws message received");
       };
       return ws.onerror = function(e) {
         return recLog.parent().append("<div>" + (Date.now()) + ": Error: " + e.data + "</div>");

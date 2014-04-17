@@ -102,7 +102,7 @@ $ ->
       logReceived "Websocket closed"
       stopTest()
     ws.onmessage = (e)->
-      logReceived "WS message (#{e.data.length} chars) received: #{e.data.substr?(0, 20)}"
+      logReceived if e.data.length? then "WS message (#{e.data.length} chars) received: #{e.data.substr?(0, 20)}" else "Binary ws message received"
     ws.onerror = (e)->
       recLog.parent().append "<div>#{Date.now()}: Error: #{e.data}</div>"
 
