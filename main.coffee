@@ -1,9 +1,9 @@
 limit = 0xffff
-wsUrl = "ws://echo.websocket.org"
-controlString = "Random"
+wsUrl = "ws://91.213.212.21/ws/video?stream=cctv_hs-mob_med&binary=1"
+controlString = "S1"
 
 msgLength = 0xfff
-mps = 10
+mps = 5
 
 ws = null
 
