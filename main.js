@@ -91,7 +91,7 @@
     })();
     logReceived = function(string) {
       stampReceived();
-      return recLog.text("" + (Date.now()) + ": " + string);
+      return recLog.append("<div>" + (Date.now()) + ": " + string + "</div>");
     };
     logSent = function(string) {
       return sendLog.text("" + (Date.now()) + ": " + string);
@@ -123,7 +123,17 @@
         return logReceived(e.data.length != null ? "WS message (" + e.data.length + " chars) received: " + (typeof (_base = e.data).substr === "function" ? _base.substr(0, 20) : void 0) : "Binary ws message received");
       };
       return ws.onerror = function(e) {
-        return recLog.parent().append("<div>" + (Date.now()) + ": Error: " + e.data + "</div>");
+        var eText, key, val;
+        eText = ((function() {
+          var _results;
+          _results = [];
+          for (key in e) {
+            val = e[key];
+            _results.push("" + key + ": " + val + "<br />");
+          }
+          return _results;
+        })()).join("\n");
+        return recLog.parent().append("<div>" + (Date.now()) + ": Error: <br />" + eText + "</div>");
       };
     };
     stopTest = function() {

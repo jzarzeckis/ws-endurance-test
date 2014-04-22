@@ -75,7 +75,7 @@ $ ->
 
   logReceived = (string) ->
     stampReceived()
-    recLog.text "#{Date.now()}: #{string}"
+    recLog.append "<div>#{Date.now()}: #{string}</div>"
 
   logSent = (string) ->
     sendLog.text "#{Date.now()}: #{string}"
@@ -104,7 +104,8 @@ $ ->
     ws.onmessage = (e)->
       logReceived if e.data.length? then "WS message (#{e.data.length} chars) received: #{e.data.substr?(0, 20)}" else "Binary ws message received"
     ws.onerror = (e)->
-      recLog.parent().append "<div>#{Date.now()}: Error: #{e.data}</div>"
+      eText = ("#{key}: #{val}<br />" for key, val of e).join "\n"
+      recLog.parent().append "<div>#{Date.now()}: Error: <br />#{eText}</div>"
 
   stopTest = ->
     testRunning = no
